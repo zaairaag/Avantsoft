@@ -18,10 +18,13 @@ export const criarVenda = async (req: Request<{}, {}, VendaRequest>, res: Respon
       return res.status(404).json({ error: 'Cliente não encontrado' });
     }
 
+    // Garantir que a data seja tratada corretamente
+    const dataVenda = new Date(data);
+
     const venda = await prisma.venda.create({
       data: {
         valor,
-        data: new Date(data),
+        data: dataVenda,
         clienteId
       },
       include: {
