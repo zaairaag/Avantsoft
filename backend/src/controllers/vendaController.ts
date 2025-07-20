@@ -76,6 +76,12 @@ export const obterEstatisticas = async (req: Request, res: Response) => {
 
     const totalDia = vendasHoje.reduce((total, venda) => total + venda.valor, 0);
 
+    // Contadores gerais
+    const [totalClientes, totalVendas] = await Promise.all([
+      prisma.cliente.count({ where: { deletedAt: null } }),
+      prisma.venda.count()
+    ]);
+
     // Buscar todos os clientes com suas vendas
     const clientesComVendas = await prisma.cliente.findMany({
       where: {
@@ -115,6 +121,9 @@ export const obterEstatisticas = async (req: Request, res: Response) => {
     if (estatisticasClientes.length === 0) {
       return res.json({
         totalDia,
+        totalClientes,
+        totalVendas,
+        vendasHoje: vendasHoje.length,
         maiorVolume: {
           cliente: 'Nenhum',
           valor: 0
@@ -147,6 +156,9 @@ export const obterEstatisticas = async (req: Request, res: Response) => {
 
     res.json({
       totalDia,
+      totalClientes,
+      totalVendas,
+      vendasHoje: vendasHoje.length,
       maiorVolume: {
         cliente: maiorVolume.nome,
         valor: maiorVolume.totalVendas
@@ -187,10 +199,17 @@ export const obterVendasPorDia = async (req: Request, res: Response) => {
       return acc;
     }, {} as Record<string, number>);
 
-    // Converter para array ordenado
+    // Converter para array ordenado com formato brasileiro
     const resultado = Object.entries(vendasPorDia)
-      .map(([data, valor]) => ({ data, valor }))
-      .sort((a, b) => a.data.localeCompare(b.data));
+      .map(([data, valor]) => ({
+        data: new Date(data).toLocaleDateString('pt-BR', {
+          day: '2-digit',
+          month: '2-digit'
+        }),
+        valor
+      }))
+      .sort((a, b) => a.data.localeCompare(b.data))
+      .slice(-7); // Últimos 7 dias
 
     res.json(resultado);
   } catch (error) {
