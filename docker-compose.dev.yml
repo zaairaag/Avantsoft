@@ -1,0 +1,88 @@
+# Docker Compose para Desenvolvimento - Reino dos Brinquedos
+version: '3.8'
+
+services:
+  # Banco de dados PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    container_name: reino-db-dev
+    environment:
+      POSTGRES_USER: reino_user
+      POSTGRES_PASSWORD: reino_pass
+      POSTGRES_DB: reino_brinquedos
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U reino_user -d reino_brinquedos"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: reino-backend-dev
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_URL: postgresql://reino_user:reino_pass@postgres:5432/reino_brinquedos
+      JWT_SECRET: desenvolvimento-jwt-secret-key
+      NODE_ENV: development
+      PORT: 3001
+      CORS_ORIGIN: http://localhost:3000
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+      - /app/dist
+    command: sh -c "npx prisma migrate deploy && npm run dev"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Frontend React
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: reino-frontend-dev
+    ports:
+      - "3000:80"
+    environment:
+      VITE_API_URL: http://localhost:3001/api
+      VITE_APP_NAME: "Reino dos Brinquedos"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Adminer para gerenciar banco (opcional)
+  adminer:
+    image: adminer:latest
+    container_name: reino-adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres
+
+volumes:
+  postgres_dev_data:
+
+networks:
+  default:
+    name: reino-network
