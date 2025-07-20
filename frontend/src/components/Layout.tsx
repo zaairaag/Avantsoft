@@ -25,7 +25,6 @@ import {
   ShoppingCart,
   Menu as MenuIcon,
   Logout,
-  KeyboardArrowDown,
   Toys,
   Api,
 } from '@mui/icons-material';
@@ -151,77 +150,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         </Box>
       </Box>
 
-      {/* User Info */}
-      <Box sx={{ p: { xs: 2, sm: 3 }, borderBottom: `1px solid ${theme.palette.divider}` }}>
-        <Paper
-          elevation={0}
-          sx={{
-            p: { xs: 2, sm: 2.5 },
-            background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)',
-            border: `1px solid ${theme.palette.divider}`,
-            borderRadius: 2,
-            transition: 'all 0.2s ease',
-            '&:hover': {
-              boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
-              transform: 'translateY(-1px)',
-            },
-          }}
-        >
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1.5, sm: 2 } }}>
-            <Avatar
-              sx={{
-                width: { xs: 36, sm: 44 },
-                height: { xs: 36, sm: 44 },
-                background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
-                fontWeight: 600,
-                fontSize: { xs: '0.875rem', sm: '1rem' },
-              }}
-            >
-              {user?.name?.charAt(0)?.toUpperCase() || 'A'}
-            </Avatar>
-            <Box sx={{ flex: 1, minWidth: 0 }}>
-              <Typography
-                variant="body2"
-                sx={{
-                  color: theme.palette.text.primary,
-                  fontWeight: 600,
-                  fontSize: { xs: '0.8rem', sm: '0.875rem' },
-                  lineHeight: 1.2,
-                  mb: 0.5,
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                {user?.name || 'Administrador'}
-              </Typography>
-              <Chip
-                label="Administrador"
-                size="small"
-                sx={{
-                  background: `linear-gradient(135deg, ${theme.palette.success.main} 0%, ${theme.palette.success.dark} 100%)`,
-                  color: 'white',
-                  fontSize: { xs: '0.7rem', sm: '0.75rem' },
-                  height: { xs: 20, sm: 22 },
-                  fontWeight: 600,
-                  '& .MuiChip-label': {
-                    px: { xs: 1, sm: 1.5 },
-                  },
-                }}
-              />
-            </Box>
-            <IconButton
-              size="small"
-              sx={{ 
-                color: theme.palette.text.secondary,
-                display: { xs: 'none', sm: 'flex' },
-              }}
-            >
-              <KeyboardArrowDown fontSize="small" />
-            </IconButton>
-          </Box>
-        </Paper>
-      </Box>
+
 
       {/* Menu Items */}
       <Box sx={{ flex: 1, px: { xs: 1, sm: 2 }, py: 2 }}>
