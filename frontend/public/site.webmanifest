@@ -1,0 +1,108 @@
+{
+  "name": "Reino dos Brinquedos - Sistema de Gestão",
+  "short_name": "Reino Brinquedos",
+  "description": "Sistema completo de gestão para lojas de brinquedos. Gerencie clientes, vendas, estoque e relatórios de forma eficiente.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#FF6B9D",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "pt-BR",
+  "categories": ["business", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "Acesso rápido ao dashboard principal",
+      "url": "/dashboard",
+      "icons": [
+        {
+          "src": "/favicon.svg",
+          "sizes": "32x32",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Clientes",
+      "short_name": "Clientes",
+      "description": "Gerenciar clientes da loja",
+      "url": "/clientes",
+      "icons": [
+        {
+          "src": "/favicon.svg",
+          "sizes": "32x32",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Vendas",
+      "short_name": "Vendas",
+      "description": "Controle de vendas e pedidos",
+      "url": "/vendas",
+      "icons": [
+        {
+          "src": "/favicon.svg",
+          "sizes": "32x32",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "API Docs",
+      "short_name": "API",
+      "description": "Documentação da API",
+      "url": "/api-docs",
+      "icons": [
+        {
+          "src": "/favicon.svg",
+          "sizes": "32x32",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Dashboard do Reino dos Brinquedos"
+    },
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "375x667",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Versão mobile do sistema"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
+}

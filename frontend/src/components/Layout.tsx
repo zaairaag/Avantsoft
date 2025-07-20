@@ -27,6 +27,7 @@ import {
   Logout,
   KeyboardArrowDown,
   Toys,
+  Api,
 } from '@mui/icons-material';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -78,6 +79,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       path: '/vendas',
       color: '#f59e0b',
       description: 'Vendas de brinquedos',
+    },
+    {
+      text: 'API Docs',
+      icon: <Api />,
+      path: '/api-docs',
+      color: '#8b5cf6',
+      description: 'Documentação da API',
     },
   ];
 

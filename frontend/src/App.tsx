@@ -9,10 +9,15 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Clientes from './pages/Clientes';
 import Vendas from './pages/Vendas';
+import ApiDocs from './pages/ApiDocs';
 import theme from './theme';
+import usePageTitle from './hooks/usePageTitle';
 
 const AppRoutes: React.FC = () => {
   const { user } = useAuth();
+
+  // Update page titles and meta tags based on current route
+  usePageTitle();
 
   return (
     <Routes>
@@ -41,6 +46,14 @@ const AppRoutes: React.FC = () => {
         element={
           <ProtectedRoute>
             <Vendas />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/api-docs"
+        element={
+          <ProtectedRoute>
+            <ApiDocs />
           </ProtectedRoute>
         }
       />

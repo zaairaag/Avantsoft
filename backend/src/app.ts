@@ -7,6 +7,7 @@ import dotenv from 'dotenv';
 import authRoutes from './routes/auth';
 import clienteRoutes from './routes/clientes';
 import vendaRoutes from './routes/vendas';
+import { setupSwagger } from './config/swagger';
 
 dotenv.config();
 
@@ -17,6 +18,9 @@ app.use(helmet());
 app.use(cors());
 app.use(morgan('combined'));
 app.use(express.json());
+
+// Setup Swagger Documentation
+setupSwagger(app);
 
 // Health check
 app.get('/health', (req, res) => {

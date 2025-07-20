@@ -5,6 +5,13 @@ import { prisma } from '../lib/prisma';
 
 const router = Router();
 
+/**
+ * @swagger
+ * tags:
+ *   name: Autenticação
+ *   description: Endpoints para autenticação e autorização
+ */
+
 // POST /auth/register
 router.post('/register', async (req, res) => {
   try {
@@ -57,6 +64,71 @@ router.post('/register', async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /auth/login:
+ *   post:
+ *     summary: Realizar login no sistema
+ *     description: Autentica um usuário e retorna um token JWT para acesso às rotas protegidas
+ *     tags: [Autenticação]
+ *     security: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/LoginInput'
+ *           examples:
+ *             admin:
+ *               summary: Login do administrador
+ *               value:
+ *                 email: admin@loja.com
+ *                 password: admin123
+ *     responses:
+ *       200:
+ *         description: Login realizado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AuthResponse'
+ *             examples:
+ *               success:
+ *                 summary: Login bem-sucedido
+ *                 value:
+ *                   token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+ *                   user:
+ *                     id: "clh7x8y9z0000user123456"
+ *                     name: "Administrador"
+ *                     email: "admin@loja.com"
+ *       400:
+ *         description: Dados de entrada inválidos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *             examples:
+ *               missing_fields:
+ *                 summary: Campos obrigatórios ausentes
+ *                 value:
+ *                   error: "Email e senha são obrigatórios"
+ *       401:
+ *         description: Credenciais inválidas
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *             examples:
+ *               invalid_credentials:
+ *                 summary: Email ou senha incorretos
+ *                 value:
+ *                   error: "Credenciais inválidas"
+ *       500:
+ *         description: Erro interno do servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
 // POST /auth/login
 router.post('/login', async (req, res) => {
   try {

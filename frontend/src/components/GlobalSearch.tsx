@@ -25,6 +25,7 @@ import {
   Dashboard,
   Close,
   Groups,
+  Api,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { clienteService, vendaService } from '../services/api';
@@ -80,6 +81,15 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ onResultClick }) => {
       icon: <ShoppingCart />,
       color: '#f59e0b',
       path: '/vendas',
+    },
+    {
+      id: 'api-docs',
+      type: 'page',
+      title: 'Documentação da API',
+      subtitle: 'Swagger UI e especificações OpenAPI',
+      icon: <Api />,
+      color: '#8b5cf6',
+      path: '/api-docs',
     },
   ];
 
