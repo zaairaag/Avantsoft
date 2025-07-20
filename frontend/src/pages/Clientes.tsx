@@ -49,7 +49,6 @@ import ClienteForm from '../components/ClienteForm';
 import ImportarClientesCSV from '../components/ImportarClientesCSV';
 import { useClientes } from '../hooks/useClientes';
 import { useDebounce } from '../hooks/useDebounce';
-import { runAllTests } from '../utils/testConnection';
 
 // Definindo animações personalizadas
 const float = keyframes`
@@ -180,19 +179,7 @@ const Clientes: React.FC = () => {
     clearError();
   }, [clearError]);
 
-  const handleTestConnection = useCallback(async () => {
-    setSuccessMessage('Testando conectividade...');
-    try {
-      const results = await runAllTests();
-      if (results.connection.success && results.create.success) {
-        setSuccessMessage('✅ Todos os testes passaram! Sistema funcionando corretamente.');
-      } else {
-        setSuccessMessage(`❌ Falhas detectadas: ${results.connection.message} | ${results.create.message}`);
-      }
-    } catch (error) {
-      setSuccessMessage('❌ Erro nos testes de conectividade');
-    }
-  }, []);
+
 
   const handleProcessJSON = useCallback(() => {
     try {
@@ -1122,24 +1109,7 @@ const Clientes: React.FC = () => {
 
                 
 
-                <Button
-                  variant="outlined"
-                  onClick={handleTestConnection}
-                  sx={{
-                    borderRadius: 3,
-                    fontWeight: 600,
-                    px: 3,
-                    py: 1.5,
-                    borderColor: theme.palette.info.main,
-                    color: theme.palette.info.main,
-                    '&:hover': {
-                      backgroundColor: alpha(theme.palette.info.main, 0.1),
-                      borderColor: theme.palette.info.dark,
-                    },
-                  }}
-                >
-                  🔧 Testar Sistema
-                </Button>
+
 
                 <Button
                   variant="outlined"
