@@ -8,6 +8,12 @@
     "start": "node dist/server.js",
     "test": "jest",
     "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:unit": "jest tests/controllers tests/validation",
+    "test:integration": "jest tests/integration",
+    "test:database": "jest tests/database",
+    "test:all": "npm run test:unit && npm run test:integration && npm run test:database",
+    "test:ci": "jest --ci --coverage --watchAll=false",
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
     "db:seed": "ts-node src/seed.ts",
@@ -31,6 +37,9 @@
     "prisma": "^6.12.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
@@ -44,15 +53,14 @@
     "eslint": "^9.31.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.3",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^30.0.4",
+    "jest-environment-jsdom": "^30.0.4",
     "nodemon": "^3.1.10",
     "prettier": "^3.6.2",
     "supertest": "^7.1.3",
-    "ts-jest": "^29.2.5",
+    "ts-jest": "^29.4.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }
 }
-
-
-
