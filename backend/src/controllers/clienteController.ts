@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import prisma from '../utils/database';
 import { ClienteRequest } from '../types';
 import { validarCPF, validarTelefone, validarEmail, formatarCPF, formatarTelefone } from '../utils/validators';
-import { auditLogger } from '../utils/auditLogger';
 
 export const criarCliente = async (req: Request<{}, {}, ClienteRequest>, res: Response) => {
   try {
@@ -57,9 +56,6 @@ export const criarCliente = async (req: Request<{}, {}, ClienteRequest>, res: Re
         cpf: cpf ? cpf.replace(/\D/g, '') : null
       }
     });
-
-    // Log de auditoria
-    auditLogger.log(req as any, 'CREATE', 'cliente', cliente.id, { nome, email });
 
     res.status(201).json(cliente);
   } catch (error) {
@@ -154,7 +150,7 @@ export const obterCliente = async (req: Request, res: Response) => {
 export const atualizarCliente = async (req: Request<{ id: string }, {}, ClienteRequest>, res: Response) => {
   try {
     const { id } = req.params;
-    const { nome, email, nascimento } = req.body;
+    const { nome, email, nascimento, telefone, cpf } = req.body;
 
     const clienteExistente = await prisma.cliente.findUnique({
       where: { id }
@@ -164,9 +160,14 @@ export const atualizarCliente = async (req: Request<{ id: string }, {}, ClienteR
       return res.status(404).json({ error: 'Cliente não encontrado' });
     }
 
+    // Validar email se fornecido e diferente do atual
     if (email && email !== clienteExistente.email) {
+      if (!validarEmail(email)) {
+        return res.status(400).json({ error: 'Email inválido' });
+      }
+
       const emailEmUso = await prisma.cliente.findUnique({
-        where: { email }
+        where: { email, deletedAt: null }
       });
 
       if (emailEmUso) {
@@ -174,12 +175,34 @@ export const atualizarCliente = async (req: Request<{ id: string }, {}, ClienteR
       }
     }
 
+    // Validar CPF se fornecido e diferente do atual
+    if (cpf && cpf !== clienteExistente.cpf) {
+      if (!validarCPF(cpf)) {
+        return res.status(400).json({ error: 'CPF inválido' });
+      }
+
+      const cpfEmUso = await prisma.cliente.findUnique({
+        where: { cpf: cpf.replace(/\D/g, ''), deletedAt: null }
+      });
+
+      if (cpfEmUso) {
+        return res.status(400).json({ error: 'CPF já cadastrado' });
+      }
+    }
+
+    // Validar telefone se fornecido
+    if (telefone && !validarTelefone(telefone)) {
+      return res.status(400).json({ error: 'Telefone inválido' });
+    }
+
     const cliente = await prisma.cliente.update({
       where: { id },
       data: {
         ...(nome && { nome }),
         ...(email && { email }),
-        ...(nascimento && { nascimento: new Date(nascimento) })
+        ...(nascimento && { nascimento: new Date(nascimento) }),
+        ...(telefone !== undefined && { telefone: telefone ? formatarTelefone(telefone) : null }),
+        ...(cpf !== undefined && { cpf: cpf ? cpf.replace(/\D/g, '') : null })
       }
     });
 
