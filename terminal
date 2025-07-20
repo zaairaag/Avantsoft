@@ -1,0 +1,6 @@
+# Voltar para a raiz do projeto
+cd ..
+
+# Limpar e tentar novamente
+docker-compose down
+docker-compose up -d --build
