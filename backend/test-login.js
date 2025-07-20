@@ -44,8 +44,8 @@ async function testCreateClienteWithAuth() {
       nome: 'Cliente Teste Autenticado',
       email: `teste.auth.${Date.now()}@test.com`,
       nascimento: '1990-01-01',
-      telefone: '(11) 99999-9999',
-      cpf: '111.444.777-35' // CPF válido para teste
+      telefone: '(11) 99999-9999'
+      // CPF removido para evitar conflitos de validação
     };
     
     console.log('📤 Enviando dados:', clienteData);

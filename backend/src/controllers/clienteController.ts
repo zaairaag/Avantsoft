@@ -84,9 +84,10 @@ export const listarClientes = async (req: Request, res: Response) => {
     };
     
     if (search) {
+      // SQLite não suporta mode: 'insensitive', mas contains já é case-insensitive por padrão
       where.OR = [
-        { nome: { contains: search as string, mode: 'insensitive' } },
-        { email: { contains: search as string, mode: 'insensitive' } }
+        { nome: { contains: search as string } },
+        { email: { contains: search as string } }
       ];
     }
 
