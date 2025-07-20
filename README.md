@@ -9,7 +9,10 @@
 [![Tests](https://img.shields.io/badge/Tests-89%20Passing-brightgreen?style=for-the-badge)](https://github.com/zaairaag/Avantsoft)
 [![Coverage](https://img.shields.io/badge/Coverage-72.67%25-yellow?style=for-the-badge)](https://github.com/zaairaag/Avantsoft)
 
-Sistema completo de gestão para loja de brinquedos desenvolvido com as melhores práticas de desenvolvimento, incluindo arquitetura robusta, **89 testes automatizados** e padrões brasileiros de validação.
+Sistema completo de gestão para loja de brinquedos desenvolvido como **teste técnico para a Avantsoft**, incluindo arquitetura robusta, **89 testes automatizados** e padrões brasileiros de validação.
+
+> **🎯 TESTE TÉCNICO COMPLETO** - [Ver documentação detalhada](TESTE_TECNICO.md)
+> **📋 Requisitos originais** - [Ver requisitos do teste](REQUISITOS_TESTE.md)
 
 ## 🎯 **Visão Geral**
 
@@ -121,6 +124,7 @@ cd backend
 npm install
 npm run db:generate    # Gera o cliente Prisma
 npm run db:migrate     # Executa migrações
+npm run db:seed        # Popula com dados de exemplo (RECOMENDADO)
 npm run dev           # Inicia em modo desenvolvimento
 
 # 3. Configure o Frontend (novo terminal)
@@ -134,7 +138,31 @@ npm run dev          # Inicia em modo desenvolvimento
 - **Backend API:** http://localhost:3001
 - **Documentação API:** http://localhost:3001/api-docs
 
-### **Usuário de Teste**
+### **🐳 Alternativa com Docker**
+
+```bash
+# Windows
+docker-start.bat dev
+
+# Linux/Mac
+chmod +x docker-start.sh
+./docker-start.sh dev
+```
+
+**URLs com Docker:**
+- **Frontend:** http://localhost:3000
+- **Backend:** http://localhost:3001
+- **Adminer:** http://localhost:8080
+
+### **Dados de Exemplo Incluídos**
+O sistema vem com dados de exemplo pré-configurados:
+- **👤 2 Usuários:** admin@loja.com e gerente@loja.com (senha: admin123)
+- **👥 10 Clientes** com dados brasileiros válidos (CPF, telefone)
+- **💰 135 Vendas** distribuídas nos últimos 30 dias
+- **💵 R$ 12.709,24** em vendas totais
+- **🧸 Produtos variados:** Bonecas, carrinhos, Lego, pelúcias, etc.
+
+### **Login Padrão**
 - **Email:** `admin@loja.com`
 - **Senha:** `admin123`
 

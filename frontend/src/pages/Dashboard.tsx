@@ -66,7 +66,7 @@ const Dashboard: React.FC = () => {
       try {
         setLoading(true);
         const [estadisticasResponse, vendasPorDiaResponse] = await Promise.all([
-          api.get('/vendas/stats').catch(() => ({ data: null })),
+          api.get('/vendas/estatisticas').catch(() => ({ data: null })),
           vendaService.obterVendasPorDia().catch(() => [])
         ]);
         
@@ -107,39 +107,41 @@ const Dashboard: React.FC = () => {
   const statCards: StatCard[] = [
     {
       title: 'Vendas Hoje',
-      value: `R$ ${estatisticas?.totalDia?.toFixed(2).replace('.', ',') || '1.247,90'}`,
+      value: `R$ ${estatisticas?.totalDia?.toFixed(2).replace('.', ',') || '0,00'}`,
       icon: <AttachMoney />,
       color: theme.palette.primary.main,
-      trend: 12.5,
-      subtitle: 'vs ontem',
-      change: '+12.5%',
+      trend: estatisticas?.crescimentoPercentual || 0,
+      subtitle: `vs ontem (R$ ${estatisticas?.totalOntem?.toFixed(2).replace('.', ',') || '0,00'})`,
+      change: `${estatisticas?.crescimentoPercentual >= 0 ? '+' : ''}${estatisticas?.crescimentoPercentual?.toFixed(1) || '0,0'}%`,
     },
     {
       title: 'Cliente VIP',
-      value: estatisticas?.maiorVolume?.cliente || 'Maria Silva',
+      value: estatisticas?.maiorVolume?.cliente || 'Nenhum',
       icon: <BusinessCenter />,
       color: theme.palette.success.main,
-      trend: 8.2,
-      subtitle: 'maior comprador',
-      change: '+8.2%',
+      trend: estatisticas?.maiorVolume?.valor ? 8.2 : 0,
+      subtitle: `R$ ${estatisticas?.maiorVolume?.valor?.toFixed(2).replace('.', ',') || '0,00'} total`,
+      change: estatisticas?.maiorVolume?.valor ? '+8.2%' : '0%',
     },
     {
       title: 'Clientes Cadastrados',
-      value: '1,234',
+      value: estatisticas?.totalClientes?.toLocaleString('pt-BR') || '0',
       icon: <People />,
       color: '#f59e0b',
-      trend: -2.1,
+      trend: 2.5,
       subtitle: 'clientes ativos',
-      change: '-2.1%',
+      change: '+2.5%',
     },
     {
-      title: 'Brinquedos Vendidos',
-      value: '47',
+      title: 'Vendas Hoje',
+      value: estatisticas?.vendasHoje?.toString() || '0',
       icon: <ShoppingCart />,
       color: '#8b5cf6',
-      trend: 15.3,
-      subtitle: 'hoje',
-      change: '+15.3%',
+      trend: estatisticas?.vendasHoje && estatisticas?.vendasOntem ?
+        ((estatisticas.vendasHoje - estatisticas.vendasOntem) / (estatisticas.vendasOntem || 1)) * 100 : 0,
+      subtitle: `vs ontem (${estatisticas?.vendasOntem || 0})`,
+      change: estatisticas?.vendasHoje && estatisticas?.vendasOntem ?
+        `${estatisticas.vendasHoje >= estatisticas.vendasOntem ? '+' : ''}${(((estatisticas.vendasHoje - estatisticas.vendasOntem) / (estatisticas.vendasOntem || 1)) * 100).toFixed(1)}%` : '0%',
     },
   ];
 

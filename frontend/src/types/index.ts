@@ -39,6 +39,12 @@ export interface Venda {
 
 export interface Estatisticas {
   totalDia: number;
+  totalOntem: number;
+  crescimentoPercentual: number;
+  totalClientes: number;
+  totalVendas: number;
+  vendasHoje: number;
+  vendasOntem: number;
   maiorVolume: {
     cliente: string;
     valor: number;
@@ -49,7 +55,7 @@ export interface Estatisticas {
   };
   maiorFrequencia: {
     cliente: string;
-    quantidade: number;
+    diasUnicos: number;
   };
 }
 
