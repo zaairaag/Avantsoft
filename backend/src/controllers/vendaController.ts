@@ -76,6 +76,31 @@ export const obterEstatisticas = async (req: Request, res: Response) => {
 
     const totalDia = vendasHoje.reduce((total, venda) => total + venda.valor, 0);
 
+    // Total de ontem para comparação
+    const ontem = new Date(hoje);
+    ontem.setDate(ontem.getDate() - 1);
+    const amanhaOntem = new Date(ontem);
+    amanhaOntem.setDate(amanhaOntem.getDate() + 1);
+
+    const vendasOntem = await prisma.venda.findMany({
+      where: {
+        data: {
+          gte: ontem,
+          lt: amanhaOntem
+        }
+      }
+    });
+
+    const totalOntem = vendasOntem.reduce((total, venda) => total + venda.valor, 0);
+
+    // Calcular crescimento percentual
+    let crescimentoPercentual = 0;
+    if (totalOntem > 0) {
+      crescimentoPercentual = ((totalDia - totalOntem) / totalOntem) * 100;
+    } else if (totalDia > 0) {
+      crescimentoPercentual = 100; // Se ontem foi 0 e hoje tem vendas, é 100% de crescimento
+    }
+
     // Contadores gerais
     const [totalClientes, totalVendas] = await Promise.all([
       prisma.cliente.count({ where: { deletedAt: null } }),
@@ -121,9 +146,12 @@ export const obterEstatisticas = async (req: Request, res: Response) => {
     if (estatisticasClientes.length === 0) {
       return res.json({
         totalDia,
+        totalOntem,
+        crescimentoPercentual: Number(crescimentoPercentual.toFixed(1)),
         totalClientes,
         totalVendas,
         vendasHoje: vendasHoje.length,
+        vendasOntem: vendasOntem.length,
         maiorVolume: {
           cliente: 'Nenhum',
           valor: 0
@@ -156,9 +184,12 @@ export const obterEstatisticas = async (req: Request, res: Response) => {
 
     res.json({
       totalDia,
+      totalOntem,
+      crescimentoPercentual: Number(crescimentoPercentual.toFixed(1)),
       totalClientes,
       totalVendas,
       vendasHoje: vendasHoje.length,
+      vendasOntem: vendasOntem.length,
       maiorVolume: {
         cliente: maiorVolume.nome,
         valor: maiorVolume.totalVendas
