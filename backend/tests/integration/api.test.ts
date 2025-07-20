@@ -53,7 +53,7 @@ describe('API Integration Tests', () => {
         email: `integration.${Date.now()}@test.com`,
         nascimento: '1990-01-01',
         telefone: '11999999999',
-        cpf: '12345678901'
+        cpf: '11144477735' // Valid CPF
       };
 
       const clienteResponse = await request(app)

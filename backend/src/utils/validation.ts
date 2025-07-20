@@ -74,7 +74,12 @@ export function formatarTelefone(telefone: string | null | undefined): string | 
   if (!telefone) return null;
 
   // Remove all non-numeric characters
-  const cleanPhone = telefone.toString().replace(/[^\d]/g, '');
+  let cleanPhone = telefone.toString().replace(/[^\d]/g, '');
+
+  // Remove country code if present (55)
+  if (cleanPhone.length === 13 && cleanPhone.startsWith('55')) {
+    cleanPhone = cleanPhone.substring(2);
+  }
 
   // Check for invalid patterns (all zeros)
   if (cleanPhone === '0000000000' || cleanPhone === '00000000000') {
