@@ -4,9 +4,11 @@ import {
   listarClientes,
   obterCliente,
   atualizarCliente,
-  deletarCliente
+  deletarCliente,
+  importarClientesCSV
 } from '../controllers/clienteController';
 import { authenticateToken } from '../middleware/auth';
+import upload from '../middleware/upload';
 
 const router = Router();
 
@@ -238,5 +240,62 @@ router.put('/:id', atualizarCliente);
  *         description: Erro interno do servidor
  */
 router.delete('/:id', deletarCliente);
+
+/**
+ * @swagger
+ * /clientes/import/csv:
+ *   post:
+ *     summary: Importar clientes via CSV
+ *     description: Importa múltiplos clientes através de arquivo CSV
+ *     tags: [Clientes]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *                 description: Arquivo CSV com dados dos clientes
+ *           example:
+ *             file: "nome,email,nascimento,telefone,cpf\nMaria Silva,maria@email.com,1990-05-15,11999999999,12345678901"
+ *     responses:
+ *       200:
+ *         description: Resultado da importação
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 totalLinhas:
+ *                   type: integer
+ *                   description: Total de linhas processadas
+ *                 sucessos:
+ *                   type: integer
+ *                   description: Número de clientes importados com sucesso
+ *                 erros:
+ *                   type: integer
+ *                   description: Número de erros encontrados
+ *                 detalhes:
+ *                   type: object
+ *                   properties:
+ *                     clientesImportados:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                     errosEncontrados:
+ *                       type: array
+ *                       items:
+ *                         type: string
+ *       400:
+ *         description: Arquivo CSV não fornecido ou inválido
+ *       401:
+ *         description: Token de acesso requerido
+ *       500:
+ *         description: Erro interno do servidor
+ */
+router.post('/import/csv', upload.single('file'), importarClientesCSV);
 
 export default router;

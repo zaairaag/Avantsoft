@@ -576,7 +576,7 @@ const Login: React.FC = () => {
                     fontWeight: 600,
                   }}
                 >
-                  🎮 © 2024 Reino dos Brinquedos 🎮
+                  🎮 © 2025 Reino dos Brinquedos 🎮
                 </Typography>
                 <Typography
                   variant="body2"

@@ -30,7 +30,7 @@ import {
   Delete as DeleteIcon,
   Search as SearchIcon,
   Clear as ClearIcon,
-
+  CloudUpload as ImportIcon,
   GetApp,
   Groups,
   ChildCare,
@@ -47,6 +47,7 @@ import type { Cliente } from '../types';
 import { normalizeClienteJSON } from '../utils/normalizeJSON';
 import Layout from '../components/Layout';
 import ClienteForm from '../components/ClienteForm';
+import ImportarClientesCSV from '../components/ImportarClientesCSV';
 import { useClientes } from '../hooks/useClientes';
 import { useDebounce } from '../hooks/useDebounce';
 import { runAllTests } from '../utils/testConnection';
@@ -93,6 +94,7 @@ const Clientes: React.FC = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [editingCliente, setEditingCliente] = useState<Cliente | null>(null);
   const [openJSONDialog, setOpenJSONDialog] = useState(false);
+  const [openImportDialog, setOpenImportDialog] = useState(false);
   const [jsonInput, setJsonInput] = useState('');
   const [searchValue, setSearchValue] = useState('');
   const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
@@ -1165,6 +1167,28 @@ const Clientes: React.FC = () => {
                 </Button>
 
                 <Button
+                  variant="outlined"
+                  startIcon={<ImportIcon />}
+                  onClick={() => setOpenImportDialog(true)}
+                  sx={{
+                    borderRadius: 3,
+                    fontWeight: 700,
+                    px: 3,
+                    py: 1.5,
+                    borderColor: theme.palette.success.main,
+                    color: theme.palette.success.main,
+                    transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                    '&:hover': {
+                      backgroundColor: alpha(theme.palette.success.main, 0.1),
+                      borderColor: theme.palette.success.dark,
+                      transform: 'translateY(-2px)',
+                    },
+                  }}
+                >
+                  📊 Importar CSV
+                </Button>
+
+                <Button
                   variant="contained"
                   startIcon={<AddIcon />}
                   onClick={handleNewCliente}
@@ -1330,6 +1354,16 @@ const Clientes: React.FC = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      {/* Componente de Importação CSV */}
+      <ImportarClientesCSV
+        open={openImportDialog}
+        onClose={() => setOpenImportDialog(false)}
+        onSuccess={() => {
+          setSuccessMessage('Clientes importados com sucesso!');
+          loadClientesWithParams();
+        }}
+      />
 
       {/* Feedback de sucesso e erro */}
       <Snackbar
