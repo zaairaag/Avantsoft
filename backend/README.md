@@ -75,6 +75,9 @@ npm install
 npm run db:generate
 npm run db:migrate
 
+# Popule com dados de exemplo (RECOMENDADO)
+npm run db:seed
+
 # Inicie o servidor de desenvolvimento
 npm run dev
 ```
@@ -82,6 +85,20 @@ npm run dev
 ### **Servidor rodando em:**
 - **API:** http://localhost:3001
 - **Documentação:** http://localhost:3001/api-docs
+
+### **🌱 Dados de Exemplo (Seed)**
+O sistema inclui um seed completo com dados realistas:
+
+```bash
+npm run db:seed
+```
+
+**Dados criados:**
+- **👤 2 Usuários:** admin@loja.com e gerente@loja.com (senha: admin123)
+- **👥 10 Clientes** com CPF válido, telefone formatado
+- **💰 135 Vendas** dos últimos 30 dias
+- **🧸 Produtos:** Bonecas, carrinhos, Lego, pelúcias, jogos
+- **💵 Total:** R$ 12.709,24 em vendas
 
 ## 🧪 **Sistema de Testes**
 
