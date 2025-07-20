@@ -2,7 +2,13 @@ import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 
 // Test database instance - usar o banco de desenvolvimento
-export const testPrisma = new PrismaClient();
+export const testPrisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: process.env.DATABASE_URL || "file:./test.db"
+    }
+  }
+});
 
 // Test data factories
 export const createTestUser = async () => {
