@@ -31,7 +31,6 @@ import {
   Search as SearchIcon,
   Clear as ClearIcon,
   CloudUpload as ImportIcon,
-  GetApp,
   Groups,
   ChildCare,
   Star,
@@ -441,9 +440,7 @@ const Clientes: React.FC = () => {
     },
   ];
 
-  const handleImportClick = (): void => {
-    console.log('Importar CSV - funcionalidade a ser implementada');
-  };
+
 
   return (
     <Layout>
@@ -1124,29 +1121,7 @@ const Clientes: React.FC = () => {
               <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
 
                 
-                <Button
-                  variant="outlined"
-                  startIcon={<GetApp />}
-                  onClick={handleImportClick}
-                  sx={{
-                    borderRadius: 3,
-                    borderWidth: 2,
-                    borderColor: alpha(theme.palette.success.main, 0.3),
-                    color: theme.palette.success.main,
-                    fontWeight: 600,
-                    px: 3,
-                    transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-                    '&:hover': {
-                      borderColor: theme.palette.success.main,
-                      backgroundColor: alpha(theme.palette.success.main, 0.1),
-                      transform: 'translateY(-2px)',
-                      boxShadow: `0 8px 16px ${alpha(theme.palette.success.main, 0.2)}`,
-                    },
-                  }}
-                >
-                  📥 Importar
-                </Button>
-                
+
                 <Button
                   variant="outlined"
                   onClick={handleTestConnection}
