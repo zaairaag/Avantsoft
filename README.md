@@ -371,17 +371,3 @@ npm run preview
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ---
-
-<div align="center">
-
-**🧸 Desenvolvido com ❤️ para o Reino dos Brinquedos**
-
-*Sistema robusto, testado e pronto para produção*
-
-[![Tests](https://img.shields.io/badge/Tests-89%20Passing-brightgreen)](https://github.com/zaairaag/Avantsoft)
-[![Coverage](https://img.shields.io/badge/Coverage-72.67%25-yellow)](https://github.com/zaairaag/Avantsoft)
-[![TypeScript](https://img.shields.io/badge/TypeScript-100%25-blue)](https://github.com/zaairaag/Avantsoft)
-
-⭐ **Se este projeto te ajudou, deixe uma estrela!**
-
-</div>
