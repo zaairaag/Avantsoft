@@ -25,7 +25,7 @@
     "format": "prettier --write src/**/*.ts"
   },
   "keywords": [],
-  "author": "",
+  "author": "Zaíra Gonçalves",
   "license": "ISC",
   "description": "",
   "dependencies": {

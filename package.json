@@ -23,7 +23,7 @@
     "prisma",
     "material-ui"
   ],
-  "author": "Avantsoft",
+  "author": "Zaíra Gonçalves",
   "license": "MIT",
   "engines": {
     "node": ">=18.0.0",

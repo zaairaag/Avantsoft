@@ -274,6 +274,6 @@ Este projeto demonstra **domínio completo da stack** solicitada, implementando 
 
 ---
 
-**Desenvolvido por:** [Seu Nome]  
-**Para:** Avantsoft - Teste Técnico  
+**Desenvolvido por:** Zaíra Gonçalves
+**Para:** Avantsoft - Teste Técnico
 **Data:** Julho 2025
