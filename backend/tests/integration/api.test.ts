@@ -133,7 +133,7 @@ describe('API Integration Tests', () => {
 
       // Test search
       const searchResponse = await request(app)
-        .get('/api/clientes?search=Ana')
+        .get('/api/clientes?search=Ana Silva')
         .set('Authorization', `Bearer ${token}`);
 
       expect(searchResponse.status).toBe(200);

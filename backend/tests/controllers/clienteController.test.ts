@@ -29,7 +29,7 @@ describe('Cliente Controller', () => {
         email: generateUniqueEmail(),
         nascimento: '1990-01-01',
         telefone: '(11) 99999-9999',
-        cpf: '12345678901'
+        cpf: '11144477735'
       };
 
       const response = await request(app)
