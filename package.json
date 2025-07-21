@@ -1,0 +1,32 @@
+{
+  "name": "avantsoft-crm",
+  "version": "1.0.0",
+  "description": "Sistema CRM completo com React + Node.js",
+  "main": "index.js",
+  "scripts": {
+    "build": "cd backend && npm install && npm run build",
+    "start": "cd backend && npm start",
+    "build:frontend": "cd frontend && npm install && npm run build",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install",
+    "test": "cd backend && npm test",
+    "deploy": "npm run build && vercel --prod",
+    "render:build": "npm run build",
+    "render:start": "npm start"
+  },
+  "keywords": [
+    "crm",
+    "react",
+    "nodejs",
+    "typescript",
+    "prisma",
+    "material-ui"
+  ],
+  "author": "Avantsoft",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}
