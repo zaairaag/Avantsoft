@@ -24,7 +24,11 @@
     }
   ],
   "env": {
-    "NODE_ENV": "production"
+    "DATABASE_URL": "@database_url",
+    "JWT_SECRET": "@jwt_secret",
+    "NODE_ENV": "production",
+    "SUPABASE_URL": "@supabase_url",
+    "SUPABASE_ANON_KEY": "@supabase_anon_key"
   },
   "functions": {
     "backend/src/server.ts": {
