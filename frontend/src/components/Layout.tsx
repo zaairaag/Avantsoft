@@ -13,7 +13,6 @@ import {
   ListItemText,
   IconButton,
   Avatar,
-  Chip,
   Divider,
   Paper,
   useTheme,
@@ -43,7 +42,7 @@ const MOBILE_SIDEBAR_WIDTH = 260;
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const theme = useTheme();

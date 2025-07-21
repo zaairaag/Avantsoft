@@ -13,10 +13,8 @@ import {
   ListItem,
   ListItemText,
   Chip,
-  Divider,
   Paper,
-  IconButton,
-  Tooltip
+  IconButton
 } from '@mui/material';
 import {
   CloudUpload,
