@@ -13,50 +13,84 @@
 
 ---
 
-## 🚀 **DEPLOY EM 10 MINUTOS - PASSO A PASSO**
+## 🚀 **PASSO A PASSO - DEPLOY EM 15 MINUTOS**
 
-### **Passo 1: Preparar o Repositório (2 min)**
-
-1. **Commit e push das novas configurações:**
+### **1. Preparar o Repositório (2 min)**
 ```bash
+# Certifique-se que está tudo commitado
 git add .
-git commit -m "feat: add production docker-compose and VPS deploy config"
+git commit -m "feat: prepare for VPS production deploy"
 git push origin main
 ```
 
-### **Passo 2: Configurar no EasyPanel (3 min)**
+### **2. Acessar EasyPanel (1 min)**
+1. **Acesse seu EasyPanel** (ex: `https://seu-servidor.com:3000`)
+2. **Faça login** com suas credenciais
+3. **Vá para a aba "Services"**
 
-1. **Acesse seu EasyPanel**
-2. **Crie um novo projeto:**
-   - Nome: `reino-brinquedos`
-   - Tipo: `Docker Compose`
+### **3. Criar Banco PostgreSQL (3 min)**
+1. **Clique em "Create Service"**
+2. **Selecione "Database" → "PostgreSQL"**
+3. **Configure o banco**:
+   ```
+   Service Name: reino-postgres
+   Database Name: reino_brinquedos
+   Username: reino_user
+   Password: reino_password_2024
+   Port: 5432
+   ```
+4. **Clique em "Create"** e aguarde inicializar
+5. **Anote a URL de conexão** gerada pelo EasyPanel
 
-3. **Configure o repositório:**
-   - Repository: `https://github.com/seu-usuario/Avantsoft`
-   - Branch: `main`
-   - Docker Compose File: `docker-compose.prod.yml`
+### **4. Criar Aplicação Backend (4 min)**
+1. **Clique em "Create Service"**
+2. **Selecione "Application" → "From Git Repository"**
+3. **Configure o backend**:
+   ```
+   Service Name: reino-backend
+   Repository: https://github.com/seu-usuario/reino-dos-brinquedos
+   Branch: main
+   Build Path: ./backend
+   Dockerfile: ./backend/Dockerfile
+   Port: 3001
+   ```
+4. **Adicione as variáveis de ambiente**:
+   ```env
+   NODE_ENV=production
+   JWT_SECRET=seu_jwt_secret_super_seguro_aqui
+   DATABASE_URL=postgresql://reino_user:reino_password_2024@reino-postgres:5432/reino_brinquedos
+   PORT=3001
+   ```
+5. **Configure o domínio**: `api-reino.seu-dominio.com`
+6. **Clique em "Deploy"**
 
-### **Passo 3: Configurar Variáveis de Ambiente (2 min)**
+### **5. Criar Aplicação Frontend (3 min)**
+1. **Clique em "Create Service"**
+2. **Selecione "Application" → "From Git Repository"**
+3. **Configure o frontend**:
+   ```
+   Service Name: reino-frontend
+   Repository: https://github.com/seu-usuario/reino-dos-brinquedos
+   Branch: main
+   Build Path: ./frontend
+   Dockerfile: ./frontend/Dockerfile
+   Port: 3000
+   ```
+4. **Adicione as variáveis de ambiente**:
+   ```env
+   VITE_API_URL=https://api-reino.seu-dominio.com
+   NODE_ENV=production
+   ```
+5. **Configure o domínio**: `reino.seu-dominio.com`
+6. **Clique em "Deploy"**
 
-No EasyPanel, adicione estas variáveis:
-
-```env
-POSTGRES_USER=reino_user
-POSTGRES_PASSWORD=reino_pass_2024_super_seguro
-POSTGRES_DB=reino_brinquedos
-JWT_SECRET=reino-brinquedos-jwt-ultra-secret-2024-production-vps
-NODE_ENV=production
-FRONTEND_URL=https://seu-dominio.com
-API_URL=https://api.seu-dominio.com
-```
-
-### **Passo 4: Deploy e Configurar Domínios (3 min)**
-
-1. **Fazer o deploy** (EasyPanel faz automaticamente)
-2. **Configurar domínios:**
-   - Frontend: `seu-dominio.com` → porta 3000
-   - Backend: `api.seu-dominio.com` → porta 3001
-3. **Ativar SSL** (Let's Encrypt automático)
+### **6. Configurar SSL e Domínios (2 min)**
+1. **Vá para cada serviço** (backend e frontend)
+2. **Na aba "Domains"**, adicione:
+   - Frontend: `reino.seu-dominio.com`
+   - Backend: `api-reino.seu-dominio.com`
+3. **Ative "SSL Certificate"** (Let's Encrypt automático)
+4. **Aguarde a propagação** (1-2 minutos)
 
 ---
 
@@ -78,7 +112,101 @@ API_URL=https://api.seu-dominio.com
 
 ---
 
-## 🎯 **APÓS O DEPLOY - CONFIGURAÇÕES FINAIS**
+---
+
+## 🔧 **COMANDOS PÓS-DEPLOY**
+
+### **Executar Migrações do Banco:**
+1. **Vá para o serviço "reino-backend"** no EasyPanel
+2. **Clique na aba "Terminal"**
+3. **Execute os comandos**:
+```bash
+# Executar migrações
+npm run migrate
+
+# Popular com dados de exemplo
+npm run seed
+```
+
+### **Verificar Status dos Serviços:**
+1. **PostgreSQL**: Deve estar "Running" e "Healthy"
+2. **Backend**: Deve estar "Running" com logs sem erros
+3. **Frontend**: Deve estar "Running" e acessível via domínio
+
+### **Testar a Aplicação:**
+```bash
+# Testar API
+curl https://api-reino.seu-dominio.com/health
+
+# Testar autenticação
+curl -X POST https://api-reino.seu-dominio.com/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"admin@reino.com","password":"admin123"}'
+```
+
+---
+
+## 🐳 **ALTERNATIVA: DEPLOY COM DOCKER COMPOSE**
+
+Se preferir usar Docker Compose diretamente na VPS:
+
+### **1. Conectar na VPS via SSH:**
+```bash
+ssh usuario@seu-servidor.com
+```
+
+### **2. Clonar o Repositório:**
+```bash
+git clone https://github.com/seu-usuario/reino-dos-brinquedos.git
+cd reino-dos-brinquedos
+```
+
+### **3. Configurar Variáveis:**
+```bash
+# Copiar arquivo de exemplo
+cp .env.production .env
+
+# Editar com suas configurações
+nano .env
+```
+
+### **4. Executar Docker Compose:**
+```bash
+# Build e start dos serviços
+docker-compose -f docker-compose.prod.yml up -d
+
+# Verificar status
+docker-compose -f docker-compose.prod.yml ps
+
+# Ver logs
+docker-compose -f docker-compose.prod.yml logs -f
+```
+
+### **5. Configurar Nginx (Proxy Reverso):**
+```nginx
+# /etc/nginx/sites-available/reino-brinquedos
+server {
+    listen 80;
+    server_name reino.seu-dominio.com;
+    
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+
+server {
+    listen 80;
+    server_name api-reino.seu-dominio.com;
+    
+    location / {
+        proxy_pass http://localhost:3001;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+```
 
 ### **1. Executar Migrações (1 min):**
 ```bash
